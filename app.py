@@ -53,11 +53,12 @@ def predict():
   if isinstance(pubsub_message, dict) and "data" in pubsub_message:
       event_data = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
       event_data_dict = json.loads(event_data)
+      print(event_data_dict)
 
       name = event_data_dict["name"]
       bucket = event_data_dict["bucket"]
       # Make predictions for the local image
-      raw = tf.io.read_file("gs://"+bucket+name)
+      raw = tf.io.read_file("gs://"+bucket+'/'+name)
       img = tf.image.decode_image(raw, channels=3)
       img.set_shape([224,224])
       # img = image.load_img("gs://"+bucket+name, target_size=(224, 224))  # Adjust target_size as needed
