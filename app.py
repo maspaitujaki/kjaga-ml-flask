@@ -22,6 +22,12 @@ def hello_world():
     c = 'Hello from flask'
     return c, 200
 
+@app.route("/reload-model")
+def update_model():
+  global model
+  model = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+  return "Ok"
+
 @app.route("/predict", methods=['POST'])
 def predict():
   # local_image_path = './test/test_ayam_goreng.jpg'
