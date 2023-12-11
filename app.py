@@ -7,6 +7,7 @@ import numpy as np
 from keras.preprocessing import image
 from keras.applications.inception_v3 import preprocess_input
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 
@@ -50,8 +51,10 @@ def predict():
   predicted_class = None
   if isinstance(pubsub_message, dict) and "data" in pubsub_message:
       event_data = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
-      name = event_data["name"]
-      bucket = event_data["bucket"]
+      event_data_dict = json.loads(event_data)
+
+      name = event_data_dict["name"]
+      bucket = event_data_dict["bucket"]
       # Make predictions for the local image
       img = image.load_img("gs://"+bucket+name, target_size=(224, 224))  # Adjust target_size as needed
       img_array = image.img_to_array(img)
