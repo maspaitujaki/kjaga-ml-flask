@@ -9,14 +9,46 @@ from keras.preprocessing import image
 from keras.applications.inception_v3 import preprocess_input
 from dotenv import load_dotenv
 import json
-
+import psycopg2
+from datetime import datetime
 load_dotenv()
 
 
 app = Flask(__name__)
 model_url = os.environ.get("MODEL_URL")
-# model = load_model("./model/model_v1.0.h5", custom_objects={'KerasLayer':hub.KerasLayer})
-model = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+model = load_model("./model/model_v1.0.h5", custom_objects={'KerasLayer':hub.KerasLayer})
+# model = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+
+def update_prediction_result(name: str, result: str):
+  sql = """ UPDATE predictions 
+            SET (predicted_at, status, result) = (%s, 'DONE', %s) where id = %s"""
+  conn = None
+  updated_rows = 0
+  try:
+      # connect to the PostgreSQL database
+      conn = psycopg2.connect(database=os.environ.get("PG_DATABASE"),
+                          host=os.environ.get("PG_HOST"),
+                          user=os.environ.get("PG_USER"),
+                          password=os.environ.get("PG_PASSWORD"),
+                          port="5432")
+      # create a new cursor
+      cur = conn.cursor()
+
+      ts = datetime.now()
+
+      # execute the UPDATE  statement
+      cur.execute(sql, (ts, result, name))
+      # get the number of updated rows
+      updated_rows = cur.rowcount
+      # Commit the changes to the database
+      conn.commit()
+      # Close communication with the PostgreSQL database
+      cur.close()
+  except (Exception, psycopg2.DatabaseError) as error:
+      print(error)
+  finally:
+      if conn is not None:
+          conn.close()
 
 @app.route("/")
 def hello_world():
@@ -78,8 +110,8 @@ def predict():
 
       # print(f"The predicted class is: {predicted_class}")
       # return str(predicted_class)
-      
-  print(f"The predicted class is: {predicted_class}")
+      print(f"The predicted class is: {predicted_class}")
+      update_prediction_result(name, predicted_class)
 
   return ("",204)
 
@@ -117,6 +149,8 @@ def predict():
 #   # return str(predicted_class)
       
 #   print(f"The predicted class is: {predicted_class}")
+#   update_prediction_result('Aku', int(predicted_class))
+
 
 #   return ("",204)
 
