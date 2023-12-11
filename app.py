@@ -2,6 +2,7 @@ import os
 import base64
 from flask import Flask, jsonify, request
 from keras.models import load_model
+import tensorflow as tf
 import tensorflow_hub as hub
 import numpy as np
 from keras.preprocessing import image
@@ -56,7 +57,10 @@ def predict():
       name = event_data_dict["name"]
       bucket = event_data_dict["bucket"]
       # Make predictions for the local image
-      img = image.load_img("gs://"+bucket+name, target_size=(224, 224))  # Adjust target_size as needed
+      raw = tf.io.read_file("gs://"+bucket+name)
+      img = tf.image.decode_image(raw, channels=3)
+      img.set_shape([224,224])
+      # img = image.load_img("gs://"+bucket+name, target_size=(224, 224))  # Adjust target_size as needed
       img_array = image.img_to_array(img)
       img_array = np.expand_dims(img_array, axis=0)
       img_array = preprocess_input(img_array)
