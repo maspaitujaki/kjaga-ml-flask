@@ -111,7 +111,7 @@ def predict():
       # print(f"The predicted class is: {predicted_class}")
       # return str(predicted_class)
       print(f"The predicted class is: {predicted_class}")
-      update_prediction_result(name, predicted_class)
+      update_prediction_result(name, int(predicted_class))
 
   return ("",204)
 
