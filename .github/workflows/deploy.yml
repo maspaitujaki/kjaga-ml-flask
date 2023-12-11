@@ -30,4 +30,4 @@ jobs:
         run: gcloud builds submit --tag asia-southeast2-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/kjaga-ml-flask-image:$GITHUB_SHA .
         
       - name: Deploy
-        run: gcloud run deploy kjaga-dev --image asia-southeast2-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/kjaga-ml-flask-image:$GITHUB_SHA --platform managed --region $RUN_REGION
+        run: gcloud run deploy kjaga-ml-flask --image asia-southeast2-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/kjaga-ml-flask-image:$GITHUB_SHA --platform managed --region $RUN_REGION
