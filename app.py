@@ -15,8 +15,8 @@ load_dotenv()
 
 app = Flask(__name__)
 model_url = os.environ.get("MODEL_URL")
-model = load_model("./model/model_v1.0.h5", custom_objects={'KerasLayer':hub.KerasLayer})
-# model = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+# model = load_model("./model/model_v1.0.h5", custom_objects={'KerasLayer':hub.KerasLayer})
+model = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
 
 @app.route("/")
 def hello_world():
