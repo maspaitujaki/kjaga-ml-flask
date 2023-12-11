@@ -60,7 +60,7 @@ def predict():
       # Make predictions for the local image
       raw = tf.io.read_file("gs://"+bucket+'/'+name)
       img = tf.image.decode_image(raw, channels=3)
-      # img.set_shape([224,224])
+      img = tf.image.resize(img,[224,224])
       # img = image.load_img("gs://"+bucket+name, target_size=(224, 224))  # Adjust target_size as needed
       img_array = image.img_to_array(img)
       img_array = np.expand_dims(img_array, axis=0)
