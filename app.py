@@ -43,6 +43,9 @@ def predict():
 
   """Receive and parse Pub/Sub messages."""
   envelope = request.get_json()
+  print('envelope start')
+  print(envelope)
+  print('envelope end')
   if not envelope:
       msg = "no Pub/Sub message received"
       print(f"error: {msg}")
@@ -53,7 +56,6 @@ def predict():
       print(f"error: {msg}")
       return f"Bad Request: {msg}", 400
 
-  print(envelope)
   pubsub_message = envelope["message"]
 
   name = "World"
