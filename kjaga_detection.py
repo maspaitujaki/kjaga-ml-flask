@@ -11,6 +11,7 @@ import numpy as np
 import urllib.request
 import cv2
 import imutils
+from google.cloud import storage
 
 # Nilai konstanta
 WIDTH = 600
@@ -22,11 +23,24 @@ INPUT_SIZE = (224, 224)
 # Load model yang telah dibuat
 print("[INFO] Loading model...")
 model_url = os.environ.get("MODEL_URL")
-model = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+# model = load_model("./model/modelv1-5.h5", custom_objects={'KerasLayer':hub.KerasLayer})
+MODEL = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+print("[INFO] Model loaded...")
+
+def reload_model():
+  global MODEL
+  print("[INFO] Loading model...")
+  model_url = os.environ.get("MODEL_URL")
+  MODEL = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+  print("[INFO] Model loaded...")
 
 def predict_image(name, bucket):
-  resp = urllib.request.urlopen(f"https://storage.googleapis.com/{bucket}/{name}")
-  image = np.asarray(bytearray(resp.read()), dtype="uint8")
+  global MODEL
+  client = storage.Client()
+  bucket = client.get_bucket(bucket)
+  blob = bucket.get_blob(name)
+  downloaded_bytes = blob.download_as_bytes()
+  image = np.asarray(downloaded_bytes, dtype="uint8")
   original_image = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
   # Load gambar dan mendapatkan dimensinya
@@ -61,7 +75,7 @@ def predict_image(name, bucket):
   rois = np.array(rois, dtype="float32")
   # Melakukan prediksi dan mapping label
   # sesuai dengan nilai prediksi
-  preds = model.predict(rois)
+  preds = MODEL.predict(rois)
   preds = decode_predictions(preds)
 
   # Membuat set dan menambahkan nilai label
@@ -72,3 +86,6 @@ def predict_image(name, bucket):
       labels.add(label)
 
   return labels
+
+# labels = predict_image('image/nasi-tempe.jpg','kjaga-ml-public')
+# print(labels)
