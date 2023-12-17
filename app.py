@@ -1,15 +1,13 @@
 import os
 import base64
-from flask import Flask, jsonify, request
+from flask import Flask, request
 from keras.models import load_model
-import tensorflow as tf
 import tensorflow_hub as hub
-import numpy as np
-from keras.preprocessing import image
 from keras.applications.inception_v3 import preprocess_input
 from dotenv import load_dotenv
 import json
 import psycopg2
+from kjaga_detection import predict_image
 from datetime import datetime
 load_dotenv()
 
@@ -81,37 +79,19 @@ def predict():
 
   pubsub_message = envelope["message"]
 
-  predicted_class = None
   if isinstance(pubsub_message, dict) and "data" in pubsub_message:
       event_data = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
       event_data_dict = json.loads(event_data)
-      print(event_data_dict)
 
       name = event_data_dict["name"]
       bucket = event_data_dict["bucket"]
-      # Make predictions for the local image
-      raw = tf.io.read_file("gs://"+bucket+'/'+name)
-      # raw = tf.io.read_file("test/test_ayam_goreng.jpg")
-      img = tf.image.decode_image(raw, channels=3)
-      img = tf.image.resize(img,[224,224])
-      # img = image.load_img("gs://"+bucket+name, target_size=(224, 224))  # Adjust target_size as needed
-      img_array = image.img_to_array(img)
-      img_array = np.expand_dims(img_array, axis=0)
-
-      img_array_copy = np.copy(img_array)
-
-      img_array = preprocess_input(img_array_copy)
-
-      # Make predictions
-      predictions = model.predict(img_array)
-      # print(predictions * 100)
-
-      predicted_class = np.argmax(predictions)
-
-      # print(f"The predicted class is: {predicted_class}")
-      # return str(predicted_class)
-      print(f"The predicted class is: {predicted_class}")
-      update_prediction_result(name, int(predicted_class))
+      predictions = predict_image(name,bucket)
+      print(f"The predicted class is: {predictions}")
+      if (len(predictions) != 0):
+        update_prediction_result(name, predictions[0])
+      else:
+         update_prediction_result(name, 'Unknown')
+      
 
   return ("",204)
 
