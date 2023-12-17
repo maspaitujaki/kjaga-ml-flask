@@ -40,7 +40,7 @@ def predict_image(name, bucket):
   bucket = client.get_bucket(bucket)
   blob = bucket.get_blob(name)
   downloaded_bytes = blob.download_as_bytes()
-  image = np.asarray(downloaded_bytes, dtype="uint8")
+  image = np.asarray(bytearray(downloaded_bytes), dtype="uint8")
   original_image = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
   # Load gambar dan mendapatkan dimensinya
