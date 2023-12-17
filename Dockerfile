@@ -12,8 +12,8 @@ COPY . ./
 
 RUN pip install -r requirements.txt
 
+RUN apt-get update 
 RUN apt-get install libglu1 -y
-
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+RUN apt-get install ffmpeg libsm6 libxext6  -y
 
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
