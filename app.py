@@ -87,10 +87,8 @@ def predict():
       bucket = event_data_dict["bucket"]
       predictions = predict_image(name,bucket)
       print(f"The predicted class is: {predictions}")
-      if (len(predictions) != 0):
-        update_prediction_result(name, predictions[0])
-      else:
-         update_prediction_result(name, 'Unknown')
+      update_prediction_result(name, str(predictions))
+      
       
 
   return ("",204)
