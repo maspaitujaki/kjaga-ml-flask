@@ -38,6 +38,8 @@ def reload_model():
 
 def predict_image(name, bucket):
   global MODEL
+
+  print(f"[LOG] Predicting bucket: ({bucket}), name: ({name}).")
   client = storage.Client()
   bucket = client.get_bucket(bucket)
   blob = bucket.get_blob(name)

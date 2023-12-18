@@ -80,8 +80,6 @@ def predict():
 
       name = event_data_dict["name"]
       bucket = event_data_dict["bucket"]
-      print(f"[LOG] Predicting name: {name} , bucket: {bucket} ...")
-
 
       predictions = list(predict_image(name,bucket))
       print(f"The predicted class is: {predictions}")
