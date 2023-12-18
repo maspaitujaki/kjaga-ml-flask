@@ -14,11 +14,13 @@ load_dotenv()
 
 app = Flask(__name__)
 
-def update_prediction_result(name: str, result: str):
+def update_prediction_result(name: str, result: str, isFailed:bool = False):
+  status = 'DONE'
   sql = """ UPDATE predictions 
-            SET (predicted_at, status, result) = (%s, 'DONE', %s) where id = %s"""
+            SET (predicted_at, status, result) = (%s, %s, %s) where id = %s"""
+  if isFailed:
+    status = 'FAILED'
   conn = None
-  updated_rows = 0
   try:
       # connect to the PostgreSQL database
       conn = psycopg2.connect(database=os.environ.get("PG_DATABASE"),
@@ -32,7 +34,7 @@ def update_prediction_result(name: str, result: str):
       ts = datetime.now()
 
       # execute the UPDATE  statement
-      cur.execute(sql, (ts, result, name))
+      cur.execute(sql, (ts, status, result, name))
       # get the number of updated rows
       updated_rows = cur.rowcount
       # Commit the changes to the database
@@ -80,12 +82,13 @@ def predict():
 
       name = event_data_dict["name"]
       bucket = event_data_dict["bucket"]
-
-      predictions = list(predict_image(name,bucket))
-      print(f"The predicted class is: {predictions}")
-      update_prediction_result(name, str(predictions))
       
-      
+      try:
+        predictions = list(predict_image(name,bucket))
+        update_prediction_result(name, str(predictions))
+      except Exception as e:
+        print(f"Failed to predict. Reason: {e}")
+        update_prediction_result(name, '', isFailed=True)
 
   return ("",204)
 
