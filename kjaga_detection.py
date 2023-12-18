@@ -12,6 +12,8 @@ import urllib.request
 import cv2
 import imutils
 from google.cloud import storage
+# from dotenv import load_dotenv
+# load_dotenv()
 
 # Nilai konstanta
 WIDTH = 600
@@ -23,7 +25,7 @@ INPUT_SIZE = (224, 224)
 # Load model yang telah dibuat
 print("[INFO] Loading model...")
 model_url = os.environ.get("MODEL_URL")
-# model = load_model("./model/modelv1-5.h5", custom_objects={'KerasLayer':hub.KerasLayer})
+# MODEL = load_model("./model/modelv1-5.h5", custom_objects={'KerasLayer':hub.KerasLayer})
 MODEL = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
 print("[INFO] Model loaded...")
 
@@ -86,6 +88,5 @@ def predict_image(name, bucket):
       labels.add(label)
 
   return labels
-
-# labels = predict_image('image/nasi-tempe.jpg','kjaga-ml-public')
+# labels = predict_image('4618dac0-936a-4f38-9240-e154450cf664','kjaga-upload')
 # print(labels)

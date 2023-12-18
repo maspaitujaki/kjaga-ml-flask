@@ -4,11 +4,11 @@ from flask import Flask, request
 from keras.models import load_model
 import tensorflow_hub as hub
 from keras.applications.inception_v3 import preprocess_input
-from dotenv import load_dotenv
 import json
 import psycopg2
 from kjaga_detection import predict_image, reload_model
 from datetime import datetime
+from dotenv import load_dotenv
 load_dotenv()
 
 
