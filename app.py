@@ -74,12 +74,15 @@ def predict():
       print(f"error: {msg}")
       return f"Bad Request: {msg}", 400
 
+  print("envelope:",envelope)
   pubsub_message = envelope["message"]
+  print("pubsub_message:",pubsub_message)
 
   if isinstance(pubsub_message, dict) and "data" in pubsub_message:
       event_data = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
       event_data_dict = json.loads(event_data)
-
+      print("event_data_dict:",event_data_dict)
+      
       name = event_data_dict["name"]
       bucket = event_data_dict["bucket"]
       
