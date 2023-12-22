@@ -25,15 +25,15 @@ INPUT_SIZE = (224, 224)
 # Load model yang telah dibuat
 print("[INFO] Loading model...")
 model_url = os.environ.get("MODEL_URL")
-# MODEL = load_model("./model/modelv1-5.h5", custom_objects={'KerasLayer':hub.KerasLayer})
-MODEL = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+# MODEL = load_model("./model/modelv1-5.h5")
+MODEL = load_model(model_url)
 print("[INFO] Model loaded...")
 
 def reload_model():
   global MODEL
   print("[INFO] Loading model...")
   model_url = os.environ.get("MODEL_URL")
-  MODEL = load_model(model_url, custom_objects={'KerasLayer':hub.KerasLayer})
+  MODEL = load_model(model_url)
   print("[INFO] Model loaded...")
 
 def predict_image(name, bucket):
@@ -45,10 +45,12 @@ def predict_image(name, bucket):
   blob = bucket.get_blob(name)
   downloaded_bytes = blob.download_as_bytes()
   image = np.asarray(bytearray(downloaded_bytes), dtype="uint8")
-  original_image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+  # print(image)
+  original_image = cv2.imdecode(image, cv2.COLOR_BGR2RGB)
+  original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
+  # print(original_image)
 
   # Load gambar dan mendapatkan dimensinya
-  # original_image = cv2.imread("test/nasi-tempe.jpg")
   original_image = imutils.resize(original_image, width=WIDTH)
   (H, W) = original_image.shape[:2]
 
@@ -86,9 +88,9 @@ def predict_image(name, bucket):
   # dengan nilai probabilitas > 85%
   labels = set()
   for (label, prob) in preds:
-    if prob >= 0.85:
+    if prob >= 0.96:
       labels.add(label)
 
   return labels
-# labels = predict_image('4618dac0-936a-4f38-9240-e154450cf664','kjaga-upload')
+# labels = predict_image('ayam_ayam.jpg','kjaga-upload')
 # print(labels)

@@ -1,0 +1,19 @@
+{
+  "kind": "storage#object", 
+  "id": "kjaga-upload/6d303575-1b50-4fd0-b604-026103b16cb3/1702957537371858", 
+  "selfLink": "https://www.googleapis.com/storage/v1/b/kjaga-upload/o/6d303575-1b50-4fd0-b604-026103b16cb3", 
+  "name": "6d303575-1b50-4fd0-b604-026103b16cb3", 
+  "bucket": "kjaga-upload", 
+  "generation": "1702957537371858", 
+  "metageneration": "1", 
+  "contentType": "application/octet-stream", 
+  "timeCreated": "2023-12-19T03:45:37.373Z", 
+  "updated": "2023-12-19T03:45:37.373Z", 
+  "storageClass": "STANDARD", 
+  "timeStorageClassUpdated": "2023-12-19T03:45:37.373Z", 
+  "size": "1153642", 
+  "md5Hash": "s3DnxV4jQtR5fqsh0/DGzA==", 
+  "mediaLink": "https://storage.googleapis.com/download/storage/v1/b/kjaga-upload/o/6d303575-1b50-4fd0-b604-026103b16cb3?generation=1702957537371858&alt=media", 
+  "crc32c": "8ILh+A==", 
+  "etag": "CNLN1JjLmoMDEAE="
+}

@@ -1,0 +1,18 @@
+{
+  "message": {
+    "attributes": {
+      "bucketId": "kjaga-upload", 
+      "eventTime": "2023-12-19T03:45:37.373887Z", 
+      "eventType": "OBJECT_FINALIZE", 
+      "notificationConfig": "projects/_/buckets/kjaga-upload/notificationConfigs/1", 
+      "objectGeneration": "1702957537371858", 
+      "objectId": "6d303575-1b50-4fd0-b604-026103b16cb3", 
+      "payloadFormat": "JSON_API_V1"}, 
+      "data": "ewogICJraW5kIjogInN0b3JhZ2Ujb2JqZWN0IiwKICAiaWQiOiAia2phZ2EtdXBsb2FkLzZkMzAzNTc1LTFiNTAtNGZkMC1iNjA0LTAyNjEwM2IxNmNiMy8xNzAyOTU3NTM3MzcxODU4IiwKICAic2VsZkxpbmsiOiAiaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vc3RvcmFnZS92MS9iL2tqYWdhLXVwbG9hZC9vLzZkMzAzNTc1LTFiNTAtNGZkMC1iNjA0LTAyNjEwM2IxNmNiMyIsCiAgIm5hbWUiOiAiNmQzMDM1NzUtMWI1MC00ZmQwLWI2MDQtMDI2MTAzYjE2Y2IzIiwKICAiYnVja2V0IjogImtqYWdhLXVwbG9hZCIsCiAgImdlbmVyYXRpb24iOiAiMTcwMjk1NzUzNzM3MTg1OCIsCiAgIm1ldGFnZW5lcmF0aW9uIjogIjEiLAogICJjb250ZW50VHlwZSI6ICJhcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0iLAogICJ0aW1lQ3JlYXRlZCI6ICIyMDIzLTEyLTE5VDAzOjQ1OjM3LjM3M1oiLAogICJ1cGRhdGVkIjogIjIwMjMtMTItMTlUMDM6NDU6MzcuMzczWiIsCiAgInN0b3JhZ2VDbGFzcyI6ICJTVEFOREFSRCIsCiAgInRpbWVTdG9yYWdlQ2xhc3NVcGRhdGVkIjogIjIwMjMtMTItMTlUMDM6NDU6MzcuMzczWiIsCiAgInNpemUiOiAiMTE1MzY0MiIsCiAgIm1kNUhhc2giOiAiczNEbnhWNGpRdFI1ZnFzaDAvREd6QT09IiwKICAibWVkaWFMaW5rIjogImh0dHBzOi8vc3RvcmFnZS5nb29nbGVhcGlzLmNvbS9kb3dubG9hZC9zdG9yYWdlL3YxL2Iva2phZ2EtdXBsb2FkL28vNmQzMDM1NzUtMWI1MC00ZmQwLWI2MDQtMDI2MTAzYjE2Y2IzP2dlbmVyYXRpb249MTcwMjk1NzUzNzM3MTg1OCZhbHQ9bWVkaWEiLAogICJjcmMzMmMiOiAiOElMaCtBPT0iLAogICJldGFnIjogIkNOTE4xSmpMbW9NREVBRT0iCn0K", 
+      "messageId": "9940164299813908", 
+      "message_id": "9940164299813908", 
+      "publishTime": "2023-12-19T03:45:37.456Z", 
+      "publish_time": "2023-12-19T03:45:37.456Z"
+    }, 
+    "subscription": "projects/kjaga-dev/subscriptions/imagePredictionSubscription"
+  }
